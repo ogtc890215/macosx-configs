@@ -1,0 +1,144 @@
+export PS1="\u@\h:\w $ "
+export PATH="/usr/local/sbin":"$HOME/bin":$PATH
+# android evnsetup 
+export PATH=$(brew --prefix curl)/bin:$PATH
+export JAVA_HOME=`/usr/libexec/java_home`
+export ANDROID_JAVA_HOME=`/usr/libexec/java_home`
+# android sdk
+export ANDROID_SDK_ROOT="/Users/guqi/Tools/adt-bundle-mac-x86_64/sdk"
+export ANDROID_SDK_BIN=${ANDROID_SDK_ROOT}/tools:${ANDROID_SDK_ROOT}/platform-tools:${ANDROID_SDK_ROOT}/build-tools/current
+# android ndk
+export ANDROID_NDK_ROOT="/Users/guqi/Tools/adt-bundle-mac-x86_64/sdk/ndk-bundle"
+# jmeter
+export JMETER_HOME="/Users/guqi/Tools/apache-jmeter"
+export JMETER_BIN=$JMETER_HOME/bin
+# ccache
+export CCACHE_LIBEXEC="/usr/local/opt/ccache/libexec"
+# Go
+export GOROOT="/usr/local/opt/go/libexec"
+export GOPATH=/Volumes/freedom/go:/Users/guqi/Documents/go
+export GOBIN=/Users/guqi/Documents/go/bin
+# GCC ARM
+export GCC_ARM="/usr/local/gcc-arm-none-eabi/bin"
+# tensorflow
+export CUDA_HOME="/usr/local/cuda"
+export DYLD_LIBRARY_PATH="$CUDA_HOME/lib:$CUDA_HOME/extras/CUPTI/lib:$DYLD_LIBRARY_PATH"
+export LD_LIBRARY_PATH="$CUDA_HOME/lib:$CUDA_HOME/extras/CUPTI/lib:$LD_LIBRARY_PATH"
+export PATH="$CUDA_HOME/bin:$PATH"
+# mono
+export MONO_GAC_PREFIX="/usr/local"
+
+export PATH=$GCC_ARM:$GOBIN:$ANDROID_SDK_BIN:$NDK_ROOT:$JMETER_BIN:$ANT_ROOT:$MAVEN_BIN:$MONGODB_BIN:$PATH
+
+#setenv
+export HOMEBREW_GITHUB_API_TOKEN="1b89544cfb609fb559270590e18857a01eb08451"
+export HOMEBREW_INSTALL_CLEANUP=true
+# export GNUTERM=X11
+
+alias grep='grep --color'
+alias egrep='egrep --color'
+alias fgrep='fgrep --color'
+alias sgrep='grep -R -n -H --exclude-dir={.git,.svn,CVS,.bzr,.hg}'
+alias ls='ls -G'
+alias ll='ls -lh'
+alias la='ls -A'
+alias free='ruby ~/Tools/scripts/free-memory.rb'
+alias mongod='mongod --dbpath ~/Developer/MongoDB/db'
+alias octave='octave --no-gui'
+alias alexac="TZ=UTC /Volumes/freedom/github/alexa/sdk-folder/sdk-build/SampleApp/src/SampleApp /Volumes/freedom/github/alexa/sdk-folder/application-necessities/config/AlexaClientSDKConfig.json"
+
+function gnuman {
+    local GNU_MAN_DIR=/usr/local/opt/coreutils/libexec/gnuman
+    man -M ${GNU_MAN_DIR} $@
+}
+
+alias gitproj='cd $(git rev-parse --show-toplevel)'
+
+# mount the android file image
+function mountAndroid { 
+	hdiutil attach ~/android.dmg.sparseimage -mountpoint /Volumes/android; 
+	cd /Volumes/android; 
+	source build/envsetup.sh; 
+} 
+function unmountAndroid { hdiutil detach /Volumes/android; }
+
+function historian {
+    cd /Users/guqi/Documents/go/src/github.com/google/battery-historian
+    go run cmd/battery-historian/battery-historian.go
+}
+
+# enter tensorflow virtual env
+function tensorflow {
+	cd /Users/guqi/anaconda2/envs/tensorflow
+	source /Users/guqi/anaconda2/bin/activate tensorflow
+	python validate.py 2>/dev/null
+}
+
+# enter Caffe2 virtual env
+function caffe2 {
+	cd /Users/guqi/anaconda2/envs/Caffe2
+	source /Users/guqi/anaconda2/bin/activate Caffe2
+	# export PYTHONPATH=/usr/local
+	python -c 'from caffe2.python import core' 2>/dev/null && echo "Success" || echo "Failure"
+}
+
+function aconda {
+    local PROJ=$1
+    cd /Users/guqi/anaconda2/envs/$PROJ
+    source /Users/guqi/anaconda2/bin/activate $PROJ
+}
+
+function deanaconda {
+	source /Users/guqi/anaconda2/bin/deactivate
+}
+
+# Web Sharing
+alias enableWebSharing='sudo apachectl start'
+alias restartWebSharing='sudo apachectl restart'
+alias stopWebSharing='sudo apachectl stop'
+
+# Add environment variable COCOS_CONSOLE_ROOT for cocos2d-x
+export COCOS_CONSOLE_ROOT=/Users/guqi/Documents/github/cocos2d-x/tools/cocos2d-console/bin
+export PATH=$COCOS_CONSOLE_ROOT:$PATH
+
+# Add environment variable COCOS_X_ROOT for cocos2d-x
+export COCOS_X_ROOT=/Users/guqi/Documents/github/cocos2d-x
+export PATH=$COCOS_X_ROOT:$PATH
+
+# Setting PATH for Python 2.7
+# The orginal version is saved in .bash_profile.pysave
+# PATH="/Library/Frameworks/Python.framework/Versions/2.7/bin:${PATH}"
+# export PATH
+
+# Add environment variable COCOS_TEMPLATES_ROOT for cocos2d-x
+export COCOS_TEMPLATES_ROOT=/Users/guqi/Documents/github/cocos2d-x/templates
+export PATH=$COCOS_TEMPLATES_ROOT:$PATH
+
+# declare useful functions
+source /Users/guqi/Tools/bashes/custom_functions.sh
+
+# [ -s "/Users/guqi/.dnx/dnvm/dnvm.sh" ] && . "/Users/guqi/.dnx/dnvm/dnvm.sh" # Load dnvm
+
+# Bash Completion
+if [ -f $(brew --prefix)/etc/bash_completion ]; then
+	. $(brew --prefix)/etc/bash_completion
+fi
+[ -f /usr/local/etc/bash_completion ] && . /usr/local/etc/bash_completion
+eval $(/usr/libexec/path_helper -s)
+
+# added by Anaconda2 5.0.1 installer
+# export PATH="/Users/guqi/anaconda2/bin:$PATH"
+export PYTHONPATH=/usr/local
+
+# Flutter
+# export PUB_HOSTED_URL=https://pub.flutter-io.cn
+# export FLUTTER_STORAGE_BASE_URL=https://storage.flutter-io.cn
+export FLUTTER_SDK=$HOME/Tools/flutter
+export DART_SDK=$FLUTTER_SDK/bin/cache/dart-sdk
+export DART_PUB=$HOME/.pub-cache
+export PATH=$DART_PUB/bin:$DART_SDK/bin:$FLUTTER_SDK/bin:$PATH
+
+[[ -s "$HOME/.rvm/scripts/rvm" ]] && source "$HOME/.rvm/scripts/rvm" # Load RVM into a shell session *as a function*
+export NVM_DIR="$HOME/.nvm"
+[ -s "/usr/local/opt/nvm/nvm.sh" ] && . "/usr/local/opt/nvm/nvm.sh"  # This loads nvm
+[ -s "/usr/local/opt/nvm/etc/bash_completion" ] && . "/usr/local/opt/nvm/etc/bash_completion"  # This loads nvm bash_completion
