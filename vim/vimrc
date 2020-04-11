@@ -76,7 +76,8 @@ set ruler                   " 打开状态栏标尺
 set shiftwidth=4            " 设定 << 和 >> 命令移动时的宽度为 4
 set softtabstop=4           " 使得按退格键时可以一次删掉 4 个空格
 set tabstop=4               " 设定 tab 长度为 4
-set expandtab				" 使用空格替换tab
+set expandtab               " 使用空格替换tab
+set pastetoggle=<F2>
 set nobackup                " 覆盖文件时不备份
 set autochdir               " 自动切换当前目录为当前文件所在的目录
 set backupcopy=yes          " 设置备份时的行为为覆盖
@@ -342,5 +343,14 @@ map <leader>dc a /*  */<LEFT><LEFT><LEFT>
 
 
 "-----------------------------------------------------------------
-" plugin - a.vim
+" vim -b : edit binary using xxd-format!
 "-----------------------------------------------------------------
+augroup Binary
+    au!
+	au BufReadPost  * if &bin | %!xxd
+	au BufReadPost  * set ft=xxd | endif
+	au BufWritePre  * if &bin | %!xxd -r
+	au BufWritePre  * endif
+	au BufWritePost * if &bin | %!xxd
+	au BufWritePost * set nomod | endif
+augroup END
